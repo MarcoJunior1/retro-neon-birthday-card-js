@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGATHA_80s_RETRO_HACK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Permanent+Marker&family=Orbitron:wght@400;900&display=swap');
+
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-cyan: #00ffff;
+            --neon-yellow: #ffff00;
+            --dark-purple: #240b36;
+            --laser-red: #ff0000;
+        }
+
+        body {
+            background-color: var(--dark-purple);
+            background-image: 
+                linear-gradient(transparent 0%, rgba(255, 0, 255, 0.2) 2%, transparent 3%),
+                linear-gradient(90deg, transparent 0%, rgba(255, 0, 255, 0.2) 2%, transparent 3%);
+            background-size: 50px 50px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ESTILOS PARA AS IMAGENS DE FUNDO */
+        .bg-deco {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.2; /* Transparência */
+            pointer-events: none;
+        }
+
+        .bola-volei {
+            width: 200px;
+            top: 10%;
+            left: 5%;
+            filter: drop-shadow(0 0 10px var(--neon-pink));
+        }
+
+        .civic-prata {
+            width: 350px;
+            bottom: 10%;
+            right: 5%;
+            filter: drop-shadow(0 0 15px var(--neon-cyan));
+        }
+
+        .vhs-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 3rem;
+            color: white;
+            text-shadow: 3px 3px var(--neon-pink), -3px -3px var(--neon-cyan);
+            margin: 20px;
+            animation: glitch 1s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(2deg); filter: hue-rotate(90deg); }
+            40% { transform: skew(-2deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        .window {
+            background: rgba(0, 0, 0, 0.8);
+            border: 4px solid var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan), inset 0 0 10px var(--neon-cyan);
+            width: 90%;
+            max-width: 800px;
+            padding: 2px;
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .title-bar {
+            background: var(--neon-pink);
+            color: black;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .window-body {
+            padding: 30px;
+            background: rgba(36, 11, 54, 0.9);
+            border: 2px solid var(--neon-pink);
+            margin: 5px;
+            text-align: center;
+        }
+
+        #termo-grid {
+            display: grid;
+            grid-template-columns: repeat(11, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .termo-cell {
+            aspect-ratio: 1;
+            border: 2px solid var(--neon-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-family: 'Press Start 2P', cursive;
+            background: black;
+            box-shadow: 0 0 5px var(--neon-cyan);
+        }
+
+        .correct { background-color: var(--neon-pink) !important; color: white; box-shadow: 0 0 15px var(--neon-pink); }
+        .present { background-color: var(--neon-yellow) !important; color: black; box-shadow: 0 0 15px var(--neon-yellow); }
+        .absent { background-color: #333 !important; border-color: #555; }
+
+        .retro-input {
+            background: black;
+            border: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 15px;
+            width: 80%;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            margin: 15px 0;
+            outline: none;
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .retro-btn {
+            background: var(--neon-cyan);
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 5px 5px 0px var(--neon-pink);
+            transition: 0.2s;
+        }
+
+        .retro-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px var(--neon-pink);
+        }
+
+        #linux-button {
+            position: absolute;
+            background: var(--laser-red);
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            padding: 10px;
+            border: 2px solid white;
+            z-index: 100;
+        }
+
+        .penguin-cursor {
+            position: fixed;
+            font-size: 30px;
+            pointer-events: none;
+            z-index: 9999;
+            filter: drop-shadow(0 0 5px var(--neon-pink));
+        }
+
+        .camera-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            border: 4px solid var(--neon-cyan);
+            box-shadow: 0 0 15px var(--neon-cyan);
+            overflow: hidden;
+            background: #000;
+        }
+
+        #webcam {
+            width: 100%;
+            display: block;
+            transform: scaleX(-1);
+        }
+
+        #cake-overlay {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 100px;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+        }
+
+        .flame {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            animation: flicker 0.1s infinite alternate;
+        }
+
+        @keyframes flicker {
+            from { transform: translateX(-50%) scale(1); opacity: 0.8; }
+            to { transform: translateX(-50%) scale(1.1); opacity: 1; }
+        }
+
+        .party-text {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2.5rem;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 15px var(--neon-pink);
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="bola.png" class="bg-deco bola-volei" alt="Voleibol">
+    <img src="civic.png" class="bg-deco civic-prata" alt="Honda Civic">
+
+    <h1 class="vhs-title">Ágatha's Birthday</h1>
+
+    <div class="window" id="main-window">
+        <div class="title-bar">
+            <span id="header-title">STATUS: INITIALIZING...</span>
+            <span>_ □ X</span>
+        </div>
+        <div class="window-body" id="app-content"></div>
+    </div>
+
+<script>
+    // VARIÁVEIS DE CONFIGURAÇÃO DO JOGO
+    const LEVEL_1_KEY = "0_C0D1G0_3ST4_AQU1"; 
+    const TARGET_WORD = "DOSTOIEVSKI";        
+
+    const state = {
+        step: parseInt(localStorage.getItem('agatha_80s_step')) || 1,
+        termoAttempt: 0
+    };
+
+    const stages = {
+        1: {
+            title: "LEVEL 01: THE HACK",
+            html: `
+                <p style="color:var(--neon-cyan); font-family:'Press Start 2P'; font-size:10px;">> LINUX DETECTED... CRITICAL ERROR</p>
+                <p>Detectamos um Vírus chamado "Arch Linux" na sua máquina.</p>
+                <p>Sugerimos Inspecionar o código da Página</p>
+                <input type="text" id="in1" class="retro-input" placeholder="PASSKEY">
+                <br><button class="retro-btn" onclick="check1()">EXECUTAR SOLUÇÃO</button>
+            `
+        },
+        2: {
+            title: "LEVEL 02: TIME TRAVEL",
+            html: `
+                <p>Marco inicial do seu começo no digital</p>
+                <p>Quando isso aconteceu? (DD/MM/AAAA):</p>
+                <p>Dica: você estava numa Roda Gigante</p>
+                <input type="text" id="in2" class="retro-input" placeholder="00/00/0000">
+                <br><button class="retro-btn" onclick="check2()">VALIDAR DATA</button>
+            `
+        },
+        3: {
+            title: "LEVEL 03: THE POSSE",
+            html: `
+                <p>O Código está com o teu Squad, a OctaByte!</p>
+                <input type="text" id="in3" class="retro-input" placeholder="PARTE1PARTE2PARTE3PARTE4PARTE5PARTE6">
+                <br><button class="retro-btn" onclick="check3()">SYNC CHANNELS</button>
+            `
+        },
+        4: {
+            title: "LEVEL 04: Termo Challenge",
+            html: `
+                <p>Jogo Termo, um dos seus autores favoritos.</p>
+                <div id="termo-grid"></div>
+                <input type="text" id="in4" class="retro-input" maxlength="11" placeholder="TYPE & ENTER">
+                <p id="t-msg" style="color:var(--neon-pink); font-size:10px;"></p>
+            `
+        },
+        5: {
+            title: "FINAL LEVEL: A Redenção de Ágatha",
+            html: `
+                <h2 style="color:var(--neon-yellow)">HAPPY BIRTHDAY, AGATHA!</h2>
+                <p>Para o presente final, admite o óbvio:</p>
+                <div style="height:250px; position:relative; margin-top:20px; border:2px solid var(--neon-cyan);">
+                    <button id="linux-button" onmouseover="moveLinux()">LINUX > WINDOWS</button>
+                    <button class="retro-btn" style="margin-top:100px; width:90%;" onclick="finish()">WINDOWS É O REI DOS SISTEMAS</button>
+                </div>
+            `
+        }
+    };
+
+    function render() {
+        const s = stages[state.step];
+        document.getElementById('header-title').innerText = s.title;
+        document.getElementById('app-content').innerHTML = s.html;
+        if(state.step === 4) initTermo();
+    }
+
+    function advance(n) {
+        state.step = n;
+        localStorage.setItem('agatha_80s_step', n);
+        render();
+    }
+
+    function check1() {
+        if(document.getElementById('in1').value.toUpperCase() === LEVEL_1_KEY.toUpperCase()) advance(2);
+        else alert("ACCESS DENIED!");
+    }
+
+    function check2() {
+        if(document.getElementById('in2').value === "07/01/2023") advance(3);
+        else alert("DATA INVÁLIDA NO FLUXO TEMPORAL!");
+    }
+
+    function check3() {
+        if(document.getElementById('in3').value.toUpperCase() === "CAB3CUD4P1NGU1MW1N3M3LH0R") advance(4);
+        else alert("SQUAD OUT OF SYNC!");
+    }
+
+    function initTermo() {
+        const grid = document.getElementById('termo-grid');
+        grid.innerHTML = "";
+        for (let i = 0; i < 6 * 11; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'termo-cell';
+            cell.id = 'cell-' + i;
+            grid.appendChild(cell);
+        }
+        document.getElementById('in4').addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') {
+                const val = e.target.value.toUpperCase();
+                if(val.length === 11) processTermo(val);
+                e.target.value = "";
+            }
+        });
+    }
+
+    function processTermo(guess) {
+        const start = state.termoAttempt * 11;
+        let hits = 0;
+        for (let i = 0; i < 11; i++) {
+            const cell = document.getElementById('cell-' + (start + i));
+            cell.innerText = guess[i];
+            if (guess[i] === TARGET_WORD[i]) {
+                cell.classList.add('correct');
+                hits++;
+            } else if (TARGET_WORD.includes(guess[i])) {
+                cell.classList.add('present');
+            } else {
+                cell.classList.add('absent');
+            }
+        }
+        if(hits === 11) setTimeout(() => advance(5), 1000);
+        else {
+            state.termoAttempt++;
+            if(state.termoAttempt >= 6) {
+                alert("GAME OVER! Reiniciando o desafio...");
+                state.termoAttempt = 0;
+                render();
+            }
+        }
+    }
+
+    function moveLinux() {
+        const b = document.getElementById('linux-button');
+        b.style.top = Math.random() * 180 + "px";
+        b.style.left = Math.random() * 250 + "px";
+    }
+
+    async function finish() {
+        const content = document.getElementById('app-content');
+        content.innerHTML = `
+            <h2 id="final-instruction" style="color:var(--neon-cyan); font-family:'Press Start 2P'; font-size:14px;">ASSOPRE O MICROFONE PARA APAGAR AS VELAS!</h2>
+            <div class="camera-container">
+                <video id="webcam" autoplay playsinline></video>
+                <div id="cake-overlay">
+                    <span id="flame" class="flame">🔥</span>
+                    🎂
+                </div>
+            </div>
+            <h1 id="bday-msg" class="party-text">FELIZ ANIVERSÁRIO, ÁGATHA! Espero que tenha gostado do Presente</h1>
+            <p id="sub-msg" style="font-size:10px;">(Ative câmera e microfone para a surpresa, talvez vc precise gritar pra funcionar kkkkkkkkkkkkkk tentei meu melhor...)</p>
+            <br><button class="retro-btn" onclick="localStorage.clear(); location.reload();">RESTART SYSTEM</button>
+        `;
+
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            document.getElementById('webcam').srcObject = stream;
+            startBlowDetection(stream);
+        } catch (err) {
+            alert("Erro: Preciso de acesso à câmera e microfone!");
+        }
+    }
+
+    function startBlowDetection(stream) {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const analyser = audioContext.createAnalyser();
+        const microphone = audioContext.createMediaStreamSource(stream);
+        microphone.connect(analyser);
+        analyser.fftSize = 256;
+        const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        function detect() {
+            analyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+            let average = sum / dataArray.length;
+
+            if (average > 50) partyTime();
+            else requestAnimationFrame(detect);
+        }
+        detect();
+    }
+
+    function partyTime() {
+        document.getElementById('flame').style.display = 'none';
+        document.getElementById('final-instruction').style.display = 'none';
+        document.getElementById('bday-msg').style.display = 'block';
+        document.getElementById('sub-msg').innerText = "SOFTWARE ENGINEER LEVEL 99 UNLOCKED.";
+        
+        const audio = new Audio('https://www.myinstants.com/media/sounds/happy-birthday-8-bit.mp3');
+        audio.play();
+
+        penguins.forEach(p => p.innerHTML = '🎉');
+    }
+
+    const penguins = [];
+    for (let i = 0; i < 3; i++) {
+        const p = document.createElement('div');
+        p.className = 'penguin-cursor';
+        p.innerHTML = '🐧';
+        document.body.appendChild(p);
+        penguins.push(p);
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        penguins.forEach((p, idx) => {
+            setTimeout(() => {
+                p.style.left = e.clientX + (idx * 25) + 'px';
+                p.style.top = e.clientY + (idx * 25) + 'px';
+            }, idx * 80);
+        });
+    });
+
+    console.log(`%c > SYSTEM OVERRIDE CODE: %c ${LEVEL_1_KEY} `, "color:white; background:red;", "background:cyan; color:black;");
+    render();
+</script>
+</body>
+</html>
