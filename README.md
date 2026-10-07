@@ -1,5 +1,3 @@
-# 🎂 Aniversário da Ágatha — Retro 80s
-
 Cartão de aniversário interativo com estética **retrô anos 80 / neon (VHS)**.
 
 ## ✨ O que tem
